@@ -1,0 +1,7 @@
+Log file created at: 2025/06/09 12:56:24
+Running on machine: iZwz9e8dwg1rb5pl946wcmZ
+Binary: Built with gc go1.23.0 for linux/amd64
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0609 12:56:24.767302   54105 http_server.go:95] start https server on port:8081
+I0609 12:56:24.767350   54105 http_server.go:90] start http server on port:8080
+I0609 12:56:29.720390   54105 log.go:88] logId[169554509] url[/xrtcclient/push] referer[] cookie[] ua[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36] clientIP[183.240.23.13:56434] realClientIP[183.240.23.13:56434] audio[1] video[1] uid[888] streamName[666] totalCost[0.126ms] 

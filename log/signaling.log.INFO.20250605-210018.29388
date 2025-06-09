@@ -1,0 +1,6 @@
+Log file created at: 2025/06/05 21:00:18
+Running on machine: iZwz9e8dwg1rb5pl946wcmZ
+Binary: Built with gc go1.23.0 for linux/amd64
+Previous log: <none>
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0605 21:00:18.421639   29388 main.go:14] hello world

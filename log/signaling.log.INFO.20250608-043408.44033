@@ -1,0 +1,6 @@
+Log file created at: 2025/06/08 04:34:08
+Running on machine: iZwz9e8dwg1rb5pl946wcmZ
+Binary: Built with gc go1.23.0 for linux/amd64
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I0608 04:34:08.632710   44033 log.go:53] logId[3267335412] url[/xrtcclient/push] referer[] cookie[] ua[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36] clientIP[14.145.64.160:44647] realClientIP[14.145.64.160:44647] 
+I0608 04:36:18.532504   44033 log.go:53] logId[2340259809] url[/xrtcclient/push] referer[] cookie[] ua[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36] clientIP[14.145.64.160:44647] realClientIP[14.145.64.160:44647] 
