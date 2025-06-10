@@ -1,5 +1,0 @@
-Log file created at: 2025/06/09 01:30:36
-Running on machine: iZwz9e8dwg1rb5pl946wcmZ
-Binary: Built with gc go1.23.0 for linux/amd64
-Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
-I0609 01:30:36.520782   48149 log.go:88] logId[1895341696] url[/xrtcclient/push] referer[] cookie[] ua[Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36] clientIP[14.145.64.160:41203] realClientIP[14.145.64.160:41203] uid[888] streamName[666] audio[1] video[1] totalCost[0.101ms] 

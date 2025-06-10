@@ -1,5 +1,0 @@
-Log file created at: 2025/06/09 01:37:39
-Running on machine: iZwz9e8dwg1rb5pl946wcmZ
-Binary: Built with gc go1.23.0 for linux/amd64
-Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
-I0609 01:37:39.582755   48333 http_server.go:85] start http server on port:8080
