@@ -91,7 +91,7 @@ func (*pushAction) Execute(w http.ResponseWriter, cr *framework.ComRequest) {
 
 	err = framework.Call("xrtc", req, resp, cr.LogId)
 	if err != nil {
-		cerr := comerrors.New(comerrors.NetworkErr, "backend process error")
+		cerr := comerrors.New(comerrors.NetworkErr, "backend process error:"+err.Error())
 		writeJsonErrorResponse(cerr, w, cr)
 		return
 	}
