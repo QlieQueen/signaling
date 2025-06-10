@@ -13,6 +13,20 @@ func NewPushAction() *pushAction {
 	return &pushAction{}
 }
 
+type xrtcPushReq struct {
+	Cmdno int `json:"cmdno"`
+	Uid uint64 `json:"uid"`
+	StreamName string `json:"stream_name"`
+	Audio int `json:"audio"`
+	Video int `json:"Video"`
+}
+
+type xrtcPushResp struct {
+	Errno int `json:"err_no"`
+	Errmsg int `json:"err_msg"`
+	Offer string `json:"offer"`
+}
+
 func (*pushAction) Execute(w http.ResponseWriter, cr *framework.ComRequest) {
 	r := cr.R
 
@@ -28,4 +42,58 @@ func (*pushAction) Execute(w http.ResponseWriter, cr *framework.ComRequest) {
 		writeJsonErrorResponse(cerr, w, cr)
 		return
 	}
+
+	// streamName
+	var streamName string
+	if values, ok := r.Form["streamName"]; ok {
+		streamName = values[0]
+	}
+
+	if streamName == "" {
+		cerr := comerrors.New(comerrors.ParamErr, "streamName is null")
+		writeJsonErrorResponse(cerr, w, cr)
+		return
+	}
+
+	// audio video
+	var strAudio, strVideo string
+	var audio, video int 
+
+	if values, ok := r.Form["audio"]; ok {
+		strAudio = values[0]
+	}
+
+	if strAudio == "" || strAudio == "0" {
+		audio = 0
+	} else {
+		audio = 1
+	}
+
+	if values, ok := r.Form["video"]; ok {
+		strVideo = values[0]
+	}
+
+	if strVideo == "" || strVideo == "0" {
+		video = 0
+	} else {
+		video = 1
+	}
+
+	req := xrtcPushReq {
+		Cmdno: CMDNO_PUSH,
+		Uid: uid,
+		StreamName: streamName,
+		Audio: audio,
+		Video: video,
+	}
+
+	var resp xrtcPushResp
+
+	err = framework.Call("xrtc", req, resp, cr.LogId)
+	if err != nil {
+		cerr := comerrors.New(comerrors.NetworkErr, "backend process error")
+		writeJsonErrorResponse(cerr, w, cr)
+		return
+	}
+
 }
