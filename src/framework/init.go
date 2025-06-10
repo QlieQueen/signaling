@@ -1,7 +1,9 @@
 package framework
 
-import "signaling/src/glog"
-import "fmt"
+import (
+	"fmt"
+	"signaling/src/glog"
+)
 
 var gconf *FrameworkConf
 
@@ -18,5 +20,11 @@ func Init(confFile string) error {
 	glog.SetLogFileName(gconf.logFile)
 	glog.SetLogLevel(gconf.logLevel)
 	glog.SetLogToStderr(gconf.logToStderr)
+
+	err = loadXrpc()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

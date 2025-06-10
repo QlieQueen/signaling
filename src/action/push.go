@@ -14,17 +14,17 @@ func NewPushAction() *pushAction {
 }
 
 type xrtcPushReq struct {
-	Cmdno int `json:"cmdno"`
-	Uid uint64 `json:"uid"`
+	Cmdno      int    `json:"cmdno"`
+	Uid        uint64 `json:"uid"`
 	StreamName string `json:"stream_name"`
-	Audio int `json:"audio"`
-	Video int `json:"Video"`
+	Audio      int    `json:"audio"`
+	Video      int    `json:"Video"`
 }
 
 type xrtcPushResp struct {
-	Errno int `json:"err_no"`
-	Errmsg int `json:"err_msg"`
-	Offer string `json:"offer"`
+	Errno  int    `json:"err_no"`
+	Errmsg int    `json:"err_msg"`
+	Offer  string `json:"offer"`
 }
 
 func (*pushAction) Execute(w http.ResponseWriter, cr *framework.ComRequest) {
@@ -57,7 +57,7 @@ func (*pushAction) Execute(w http.ResponseWriter, cr *framework.ComRequest) {
 
 	// audio video
 	var strAudio, strVideo string
-	var audio, video int 
+	var audio, video int
 
 	if values, ok := r.Form["audio"]; ok {
 		strAudio = values[0]
@@ -79,12 +79,12 @@ func (*pushAction) Execute(w http.ResponseWriter, cr *framework.ComRequest) {
 		video = 1
 	}
 
-	req := xrtcPushReq {
-		Cmdno: CMDNO_PUSH,
-		Uid: uid,
+	req := xrtcPushReq{
+		Cmdno:      CMDNO_PUSH,
+		Uid:        uid,
 		StreamName: streamName,
-		Audio: audio,
-		Video: video,
+		Audio:      audio,
+		Video:      video,
 	}
 
 	var resp xrtcPushResp
