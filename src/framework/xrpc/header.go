@@ -9,7 +9,7 @@ import (
 
 const (
 	HEADER_SIZE     = 36
-	HEADER_MAGICHUM = 0x2202202
+	HEADER_MAGICHUM = 0xfb202202
 )
 
 type Header struct {

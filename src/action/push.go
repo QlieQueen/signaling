@@ -18,7 +18,7 @@ type xrtcPushReq struct {
 	Uid        uint64 `json:"uid"`
 	StreamName string `json:"stream_name"`
 	Audio      int    `json:"audio"`
-	Video      int    `json:"Video"`
+	Video      int    `json:"video"`
 }
 
 type xrtcPushResp struct {
