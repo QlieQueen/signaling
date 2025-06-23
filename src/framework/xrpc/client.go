@@ -2,7 +2,6 @@ package xrpc
 
 import (
 	"bufio"
-	"fmt"
 	"net"
 	"time"
 )
@@ -76,7 +75,13 @@ func (c *Client) Do(req *Request) (*Response, error) {
 		return nil, err
 	}
 
-	fmt.Println("write finish")
+	// 读取响应结果
+	resp, err := ReadResponse(rw)
+	if err != nil {
+		return nil, err
+	}
 
-	return nil, nil
+	nc.Close()
+
+	return resp, nil
 }

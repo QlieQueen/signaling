@@ -13,7 +13,7 @@ type Request struct {
 func NewRequest(body io.Reader, logId uint32) *Request {
 	req := new(Request)
 	req.Header.LogId = logId
-	req.Header.MagicNum = HEADER_MAGICHUM
+	req.Header.MagicNum = HEADER_MAGICNUM
 
 	if body != nil {
 		switch v := body.(type) {
