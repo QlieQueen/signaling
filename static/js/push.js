@@ -1,3 +1,41 @@
+/*
+[用户点击推流按钮]
+  ↓
+startPush() - 发送推流请求到服务器
+  ↓
+服务器返回SDP offer
+  ↓
+pushStream() - 创建RTCPeerConnection
+  ↓
+setRemoteDescription() - 设置远程描述
+  │
+  ├─成功→ setRemoteDescriptionSuccess()
+  │       ↓
+  │       window.postMessage() 请求屏幕共享
+  │       ↓
+  │       用户同意共享 → "SS_DIALOG_SUCCESS"消息
+  │       ↓
+  │       startScreenStreamFrom(streamId)
+  │       ↓
+  │       getUserMedia()获取屏幕流
+  │       ↓
+  │       handleSuccess(视频流)
+  │       ↓
+  │       获取音频流并合并
+  │       ↓
+  │       显示在localVideo
+  │       ↓
+  │       pc.addStream() 添加流
+  │       ↓
+  │       pc.createAnswer() 创建answer
+  │       ↓
+  │       CreateSessionDescriptionSuccess(answer)
+  │           (这里应该设置本地描述并发送answer到服务器)
+  │
+  └─失败→ setRemoteDescriptionError()
+
+*/
+
 'use strict';
 
 var localVideo = document.getElementById("localVideo");
@@ -13,6 +51,7 @@ var offer = "";
 var pc;
 const config = {};
 var localStream;
+var lastConnectionState = "";
 
 function startPush() {
     console.log("send push: /signaling/push");
@@ -34,8 +73,36 @@ function startPush() {
     );
 }
 
+function sendAnswer(answerSdp) {
+    console.log("send answer: /signaling/sendanswer");
+
+    $.post("/signaling/sendanswer",
+        {"uid": uid, "streamName": streamName, "answer": answerSdp, "type": "push"},
+        function(data, textStatus) {
+            console.log("push response: " + JSON.stringify(data));
+            if ("success" == textStatus && 0 == data.errNo) {
+                $("#tips3").html("<font color='blue'>answer发送成功!</font>");
+            } else {
+                $("#tips3").html("<font color='red'>answer发送失败!</font>");
+            }
+        },
+        "json"
+    );
+}
+
 function pushStream() {
     pc = new RTCPeerConnection(config);
+    pc.oniceconnectionstatechange = function(e) {
+        var state = "";
+        if (lastConnectionState != "") {
+            state = lastConnectionState + "->" + pc.iceConnectionState;
+        } else {
+            state = pc.iceConnectionState;
+        }
+
+        $("#tips2").html("连接状态: " + state);
+        lastConnectionState = pc.iceConnectionState;        
+    }
 
     pc.setRemoteDescription(offer).then(
         setRemoteDescriptionSuccess,
@@ -83,8 +150,8 @@ function handleSuccess(stream) {
             localStream = stream;
             pc.addStream(stream);
             pc.createAnswer().then(
-                CreateSessionDescriptionSuccess,
-                CreateSessionDescriptionError
+                createSessionDescriptionSuccess,
+                createSessionDescriptionError
             );
         }
     ).catch(handleError);
@@ -100,14 +167,30 @@ function setRemoteDescriptionSuccess() {
     window.postMessage({type: "SS_UI_REQUEST", text: "push"}, "*");
 }
 
-function CreateSessionDescriptionSuccess(answer) {
+function createSessionDescriptionSuccess(answer) {
     console.log("answer sdp: \n" + answer.sdp);
+    console.log("pc set local sdp");
+    pc.setLocalDescription(answer).then(
+        setLocalDescriptionSuccess,
+        setLocalDescriptionError
+    );
+
+    sendAnswer(answer.sdp);
+}
+
+function setLocalDescriptionSuccess() {
+    console.log("set local description success");
 }
 
 function setRemoteDescriptionError() {
     console.log("pc set remote descroption error: " + error);
 }
 
-function CreateSessionDescriptionError() {
+function setLocalDescriptionError() {
+    console.log("pc set local descroption error: " + error);
+}
+
+
+function createSessionDescriptionError() {
     console.log("pc create answer error: " + error);
 }

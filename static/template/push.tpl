@@ -49,7 +49,10 @@
             video={{.video}}
         </span>
     </div>
-    <span id="tips1"></span>
+    <span id="tips1"></span> <br>
+    <span id="tips2"></span> <br>
+    <span id="tips3"></span>
+
     <div style="margin-top:5px">
         <video id="localVideo" controls autoplay></video>
     </div>
