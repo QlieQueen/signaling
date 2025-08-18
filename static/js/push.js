@@ -79,9 +79,10 @@ function stopPush() {
     console.log("send stop push: /signaling/stoppush");
 
     localVideo.srcObject = null;
+    /*
     if (localStream && localStream.getAudioTracks()) {
         localStream.getAudioTracks()[0].stop();
-    }
+    }*/
 
     if (localStream && localStream.getVideoTracks()) {
         localStream.getVideoTracks()[0].stop();
@@ -179,6 +180,7 @@ function startScreenStreamFrom(streamId) {
         handleSuccess).catch(handleError);
 }
 
+/*
 function handleSuccess(stream) {
     navigator.mediaDevices.getUserMedia({audio: true}).then(
         function(audioStream) {
@@ -192,6 +194,30 @@ function handleSuccess(stream) {
             );
         }
     ).catch(handleError);
+}*/
+
+function handleSuccess(stream) {
+    // 尝试获取音频流，如果失败则仅使用视频流
+    navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(function(audioStream) {
+            // 成功获取音频流时合并音视频
+            stream.addTrack(audioStream.getAudioTracks()[0]);
+            completeStreamSetup(stream);
+        })
+        .catch(function(error) {
+            console.log("无法获取麦克风权限，仅推流视频: " + error);
+            completeStreamSetup(stream); // 无音频时直接使用视频流
+        });
+}
+
+function completeStreamSetup(stream) {
+    localVideo.srcObject = stream;
+    localStream = stream;
+    pc.addStream(stream);
+    pc.createAnswer().then(
+        createSessionDescriptionSuccess,
+        createSessionDescriptionError
+    );
 }
 
 function handleError(error) {
